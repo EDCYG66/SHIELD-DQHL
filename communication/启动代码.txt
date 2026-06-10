@@ -1,0 +1,99 @@
+## 车辆密度鲁棒性重跑（20,40,60,80,100）
+## 说明：
+## 1) 四个模型分别跑，便于单独查日志和复现
+## 2) gatclassic 现在已支持和 gatv2 对齐的超参数输入
+
+### 1) GATv2
+nohup python run_compare_gnn_plus.py \
+  --models gat \
+  --veh-list 20,40,60,80,100 \
+  --n-up 12 --n-down 20 --lanes 4 --spacing 25 --height 1200 \
+  --topo tree --v2i-mode rsu --bs-layout median --bs-spacing 250 --bs-min-stay 5 --bs-hyst 15 \
+  --train-steps 12000 --test-every 200 --test-sample 80 \
+  --warmup-steps 800 --epsilon-decay-steps 4000 --epsilon-min 0.05 \
+  --demand-amount 130 --v2v-limit 0.045 --seed 123 \
+  --reg-attn-w 1e-4 \
+  --rb-anti-conc-alpha 0.018 --rb-hot-threshold 0.20 --rb-softmask-alpha 0.18 \
+  --beta-urgency-pos 0.014 --beta-urgency-neg 0.008 \
+  --gat-hidden-dim 48 --gat-heads 4 --gat-out-dim 32 \
+  --gat-attn-dropout 0.05 --gat-lr 3e-4 --gat-train-interval 10 --gat-top-k 8 \
+  --enable-gat-proximity-edges --gat-proximity-radius 220 --gat-max-proximity-neighbors 8 \
+  --graph-refresh-steps 300 \
+  --disable-reprune \
+  --out-dir runs/sweep_veh_20to100_gatv2 \
+  > logs/sweep_veh_20to100_gatv2.log 2>&1 &
+echo $! > logs/sweep_veh_20to100_gatv2.pid
+
+### 2) GATclassic（与 GATv2 参数对齐）
+nohup python run_compare_gnn_plus.py \
+  --models gatclassic \
+  --veh-list 20,40,60,80,100 \
+  --n-up 12 --n-down 20 --lanes 4 --spacing 25 --height 1200 \
+  --topo tree --v2i-mode rsu --bs-layout median --bs-spacing 250 --bs-min-stay 5 --bs-hyst 15 \
+  --train-steps 12000 --test-every 200 --test-sample 80 \
+  --warmup-steps 800 --epsilon-decay-steps 4000 --epsilon-min 0.05 \
+  --demand-amount 130 --v2v-limit 0.045 --seed 123 \
+  --reg-attn-w 1e-4 \
+  --rb-anti-conc-alpha 0.018 --rb-hot-threshold 0.20 --rb-softmask-alpha 0.18 \
+  --beta-urgency-pos 0.014 --beta-urgency-neg 0.008 \
+  --gat-hidden-dim 48 --gat-heads 4 --gat-out-dim 32 \
+  --gat-attn-dropout 0.05 --gat-lr 3e-4 --gat-train-interval 10 --gat-top-k 8 \
+  --enable-gat-proximity-edges --gat-proximity-radius 220 --gat-max-proximity-neighbors 8 \
+  --graph-refresh-steps 300 \
+  --disable-reprune \
+  --out-dir runs/sweep_veh_20to100_gatclassic \
+  > logs/sweep_veh_20to100_gatclassic.log 2>&1 &
+echo $! > logs/sweep_veh_20to100_gatclassic.pid
+
+### 3) GraphSAGE
+nohup python run_compare_gnn_plus.py \
+  --models sage \
+  --veh-list 20,40,60,80,100 \
+  --n-up 12 --n-down 20 --lanes 4 --spacing 25 --height 1200 \
+  --topo tree --v2i-mode rsu --bs-layout median --bs-spacing 250 --bs-min-stay 5 --bs-hyst 15 \
+  --train-steps 12000 --test-every 200 --test-sample 80 \
+  --warmup-steps 800 --epsilon-decay-steps 4000 --epsilon-min 0.05 \
+  --demand-amount 130 --v2v-limit 0.045 --seed 123 \
+  --reg-attn-w 1e-4 \
+  --rb-anti-conc-alpha 0.018 --rb-hot-threshold 0.20 --rb-softmask-alpha 0.18 \
+  --beta-urgency-pos 0.014 --beta-urgency-neg 0.008 \
+  --gat-hidden-dim 48 --gat-heads 4 --gat-out-dim 32 \
+  --gat-attn-dropout 0.05 --gat-lr 3e-4 --gat-train-interval 10 --gat-top-k 8 \
+  --enable-gat-proximity-edges --gat-proximity-radius 220 --gat-max-proximity-neighbors 8 \
+  --graph-refresh-steps 300 \
+  --disable-reprune \
+  --out-dir runs/sweep_veh_20to100_sage \
+  > logs/sweep_veh_20to100_sage.log 2>&1 &
+echo $! > logs/sweep_veh_20to100_sage.pid
+
+### 4) FC
+nohup python run_compare_gnn_plus.py \
+  --models fc \
+  --veh-list 20,40,60,80,100 \
+  --n-up 12 --n-down 20 --lanes 4 --spacing 25 --height 1200 \
+  --topo tree --v2i-mode rsu --bs-layout median --bs-spacing 250 --bs-min-stay 5 --bs-hyst 15 \
+  --train-steps 12000 --test-every 200 --test-sample 80 \
+  --warmup-steps 800 --epsilon-decay-steps 4000 --epsilon-min 0.05 \
+  --demand-amount 130 --v2v-limit 0.045 --seed 123 \
+  --reg-attn-w 1e-4 \
+  --rb-anti-conc-alpha 0.018 --rb-hot-threshold 0.20 --rb-softmask-alpha 0.18 \
+  --beta-urgency-pos 0.014 --beta-urgency-neg 0.008 \
+  --gat-hidden-dim 48 --gat-heads 4 --gat-out-dim 32 \
+  --gat-attn-dropout 0.05 --gat-lr 3e-4 --gat-train-interval 10 --gat-top-k 8 \
+  --enable-gat-proximity-edges --gat-proximity-radius 220 --gat-max-proximity-neighbors 8 \
+  --graph-refresh-steps 300 \
+  --disable-reprune \
+  --out-dir runs/sweep_veh_20to100_fc \
+  > logs/sweep_veh_20to100_fc.log 2>&1 &
+echo $! > logs/sweep_veh_20to100_fc.pid
+
+### 5) 四个模型都完成后，重画柱状图
+python plot_sweep_density_bars.py \
+  --gat runs/sweep_veh_20to100_gatv2/sweep_vehicles.csv \
+  --gatclassic runs/sweep_veh_20to100_gatclassic/sweep_vehicles.csv \
+  --sage runs/sweep_veh_20to100_sage/sweep_vehicles.csv \
+  --fc runs/sweep_veh_20to100_fc/sweep_vehicles.csv \
+  --out-dir runs/sweep_veh_compare_figs_20to100
+
+### 6) 同步到论文图（如果你继续用 Figure 9）
+cp runs/sweep_veh_compare_figs_20to100/fig6_v2i_vs_vehicles.png figures/fig9_v2i_vs_density.png

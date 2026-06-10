@@ -13,9 +13,15 @@
 MyProject/
 ├── communication/              # 通信侧代码与投稿材料
 ├── formation/                  # 编队控制主代码
+├── SHIELD-DQHL test/           # SHIELD-DQHL 对比与延续实验工作区
+├── hl_risk_lab/                # 高层策略隔离沙箱
 ├── gpu_optimized/              # GPU / CuPy / TensorFlow 相关加速验证
 ├── formation_hl_backup_20260607/  # 历史高层训练备份
-
+├── docs/                       # 论文与辅助文档
+├── plan/                       # 写作计划、章节结构、进度记录
+├── tmp/                        # 临时实验输出
+├── full-paper.md               # 论文主稿
+└── generate_thesis.py          # 论文生成辅助脚本
 ```
 
 ## 核心模块说明
@@ -43,7 +49,23 @@ MyProject/
 
 如果你的目标是继续优化 SHIELD-DQHL 或整理编队实验，优先从这里开始。
 
+### `SHIELD-DQHL test/`
 
+这是近期 SHIELD-DQHL 训练延续、对齐评估和基线对比的主要工作区。这里集中放了：
+
+- 当前候选策略目录
+- 与 learned / HL baseline 的对比脚本
+- aligned bundle eval 相关输出
+- 一些“先出数据、后画图”的实验产物
+
+### `hl_risk_lab/`
+
+这是一个隔离沙箱，用来验证新的高层策略思路，避免直接污染主训练链。适合做：
+
+- 风险感知 replay
+- n-step 返回
+- shield-aware 辅助目标
+- 新的高层 value head 设计
 
 ## 当前研究状态
 
@@ -89,8 +111,26 @@ rtk conda run -n tf212 python communication/main_highway.py
 rtk conda run -n tf212 python formation/run_trainable_high_level_policy.py
 ```
 
+隔离沙箱 smoke test：
+
+```bash
+PYTHONPATH=hl_risk_lab/src:. rtk python -m hl_risk_lab.run_lab_smoke
 ```
 
+## 论文与文档
+
+主要论文材料位于：
+
+- `full-paper.md`
+- `docs/thesis/full-paper.md`
+- `毕业大论文/`
+- `plan/`
+
+其中：
+
+- `plan/project-overview.md`：项目概览
+- `plan/outline.md`：章节大纲
+- `plan/progress.md`：写作进度
 
 ## 使用建议
 

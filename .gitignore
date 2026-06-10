@@ -1,0 +1,70 @@
+# Keep this first GitHub upload focused on runnable source only.
+# Everything is ignored by default, then selected project source is re-included.
+*
+
+# Repository metadata
+!/.gitignore
+!/README.md
+
+# Selected project folders
+!/communication/
+!/formation/
+
+# Allow Git to traverse selected folders.
+!/communication/**/
+!/formation/**/
+
+# Ignore all selected-folder files by default.
+/communication/**
+/formation/**
+
+# Re-include source code and run scripts.
+!/communication/**/*.py
+!/communication/**/*.sh
+!/formation/**/*.py
+!/formation/**/*.sh
+
+# Keep only lightweight project/run notes, not paper admin files.
+!/communication/启动代码.txt
+!/communication/通信代码合并.md
+!/communication/**/README*.md
+!/formation/**/README*.md
+!/communication/**/requirements*.txt
+!/formation/**/requirements*.txt
+
+# Keep generated data and paper/submission artifacts out of the repository.
+/communication/__pycache__/
+/communication/experiments/
+/communication/logs/
+/communication/aeu_cas_sc_review/
+/communication/aeu_singlecol_review/
+/communication/aeu模板/
+/communication/telecomsys_submission/
+/communication/telecomsys_submission_final_upload_package/
+/formation/__pycache__/
+/formation/results/
+
+# Common generated artifacts if new ones appear beside source.
+*.aux
+*.ckpt
+*.ckpt.*
+*.csv
+*.eps
+*.h5
+*.jpeg
+*.jpg
+*.log
+*.npy
+*.npz
+*.out
+*.pdf
+*.pkl
+*.png
+*.pt
+*.pth
+*.pyc
+*.spl
+*.tiff
+*.v2
+*.weights.h5
+*.zip
